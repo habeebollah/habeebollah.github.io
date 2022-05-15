@@ -3,13 +3,12 @@
 'montiR' (Model biOmass diNamik singkaT dI R) merupakan kumpulan model biomas dinamik untuk pengelolaan perikanan yang ditulis menggunakan R. Model surplus produksi dibangun atas asumsi equilibrium dan non-equilibrium yang dibangun atas konsep yang dibangun oleh Schaefer dan Fox. Penjelasan mengenai latar belakang, kelebihan dan kekurangan dari tiap metode serta contoh penggunaannya akan dijelaskan di panduan package ini. 
 
 Struktur serta fungsi yang terdapat pada package montiR dapat dilihat pada gambar berikut
-![montiR_fxx.png](img)
+![montiR_fxx.png](/img)
 
 Penggunaan montiR diawali dengan penyediaan data yang meliputi data tahun, data tangkapan serta data upaya yang dibuat dalam dataframe seperti berikut:
 
-```{r example}
-library(montiR)
-## membuat input data
+```markdown
+{r example}
 df <- data.frame(tahun=c(...),
                  tangkapan=c(...),
                  upaya=c(...))
@@ -31,7 +30,8 @@ Metode multiple regression masih banyak digunakan untuk menghitung jumlah tangka
 
 Langkah paling penting sebelum melakukan analisis data adalah memeriksa apakah data yang akan digunakan memenuhi persyaratan dan asumsi yang dibutuhkan untuk analisis biomass dynamic model, termasuk memilih jenis langkah apa yang harus dilakukan ketika data yang dibutuhkan tidak memenuhi asumsi
 
-```{r example}
+```markdown
+{r example}
 plotInit(df=df)
 ```
 
