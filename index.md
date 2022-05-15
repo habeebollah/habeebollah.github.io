@@ -1,4 +1,6 @@
-## Welcome to GitHub Pages
+## Selamat datang!
+
+Web ini berisi kumpulan fungsi untuk pendugaan stok dalam mendukung pengelolaan perikanan yang dibangun menggunakan R
 
 You can use the [editor on GitHub](https://github.com/habeebollah/habeebollah.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
