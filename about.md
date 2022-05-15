@@ -1,3 +1,3 @@
-## About
+## Tentang
 
-Dibuat oleh saya untuk belajar bersama
+Panduan ini dibuat untuk kita belajar bersama menggunakan R
