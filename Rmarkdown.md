@@ -1,4 +1,4 @@
-## Writing in Markdown for this website
+## Trik Rmarkdown
 
 You can use the [editor on GitHub](https://github.com/habeebollah/habeebollah.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
