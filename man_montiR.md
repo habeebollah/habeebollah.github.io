@@ -16,9 +16,39 @@ df <- data.frame(tahun=c(...),
 
 
 ### 1. Surplus Production dengan asumsi equilibrium
-Pendekatan yang ditampilkan disini hanya untuk tujuan edukasi sebagai contoh model yang akan memberikan estimasi MSY dan Emsy yang lebih tinggi, sehingga sangat tidak disarankan untuk dijadikan sebagai panduan dalam pengambilan kebijakan perikanan. Overestimasi reference point pada kondisi ketika status perikanan sedang dalam kondisi overexploited akan memberikan ilusi bahwa stok ikan masih banyak, sehingga dapat merugikan pelaku perikanan karena jumlah tangkapan yang rendah dan merugikan stok ikan karena semakin tingginya pemanfaatan.
+Pendekatan yang ditampilkan disini hanya untuk tujuan edukasi sebagai contoh model yang akan memberikan estimasi MSY dan Emsy yang lebih tinggi (Hilborn and Walter, 1992; Polacheck, et al. 1993), sehingga sangat tidak disarankan untuk dijadikan sebagai panduan dalam pengambilan kebijakan perikanan. Overestimasi reference point pada kondisi ketika status perikanan sedang dalam kondisi overexploited akan memberikan ilusi bahwa stok ikan masih banyak, sehingga dapat merugikan pelaku perikanan karena jumlah tangkapan yang rendah dan merugikan stok ikan karena semakin tingginya pemanfaatan. 
 
-Banyak dari kita yang masih menggunakan metode ini untuk menghitung jumlah tangkapan ikan lestari (MSY) dan upaya penangkapan ikan lestari (Emsy) untuk model Schaefer dan Fox meskipun sudah tidak disarankan untuk digunakan sejak 1980an.
+Tool ini menggunakan asumsi equilibrium dengan analisa linear regression sederhana untuk menghitung MSY and Emsy termasuk confident interval dan r squared dengan adj R squared menggunakan model yang disusun oleh Schaefer dan Fox. Cara penghitungan menggunakan metode yang tersedia pada Sparre and Venema (1998) dengan contoh penggunaan dengan langsung memasukkan dataframe yang sudah disusun sesuai langkah diatas.
+
+```markdown
+SF_Eq(df.javaTrawl)
+
+$data
+  year catch effort     CPUE.s    CPUE.f
+1 1969  50.0    623 0.08025682 -2.522524
+2 1970  49.0    628 0.07802548 -2.550720
+3 1971  47.5    520 0.09134615 -2.393099
+4 1972  45.0    513 0.08771930 -2.433613
+5 1973  51.0    661 0.07715582 -2.561928
+6 1974  56.0    919 0.06093580 -2.797934
+7 1975  66.0   1158 0.05699482 -2.864795
+8 1976  58.0   1970 0.02944162 -3.525346
+9 1977  52.0   1317 0.03948368 -3.231868
+
+$result
+    analysis     Schaefer          Fox
+1        MSY   66.0207509   60.9388243
+2  MSY.CIlow   52.8471074   52.2093313
+3  MSY.CIupp   87.9430572   73.1735762
+4       Emsy 1241.2063030 1273.7079052
+5 Emsy.CIlow  993.5385764 1091.2491142
+6 Emsy.CIupp 1653.3510376 1529.4315838
+7         r2    0.9278215    0.9661845
+8     adj.r2    0.9175103    0.9613537
+```
+
+Disini dapat dilihat hasil analisis menggunakan model Schaefer dan Fox, berupa angka MSY dan Emsy serta rentang bawah dan atas untuk confident interval pada 95% dengan perhitungan r dan adjusted r squared.
+
 
 ### 2. Surplus produksi dengan asumsi non-equilibrium menggunakan multiple regression
 
