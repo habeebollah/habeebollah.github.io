@@ -4,7 +4,7 @@
 
 Struktur serta fungsi yang terdapat pada package montiR dapat dilihat pada gambar berikut
 
-![montiR_fxx.png](habeebollah.github.io/img)
+![Struktur](/img/montiR_fx.png)
 
 Penggunaan montiR diawali dengan penyediaan data yang meliputi data tahun, data tangkapan serta data upaya yang dibuat dalam dataframe seperti berikut:
 
