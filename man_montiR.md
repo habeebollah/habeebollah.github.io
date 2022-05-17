@@ -48,14 +48,14 @@ $result
 8     adj.r2    0.9175103    0.9613537
 ```
 
-Disini dapat dilihat hasil analisis menggunakan model Schaefer dan Fox, berupa angka MSY dan Emsy serta rentang bawah dan atas untuk confident interval pada 95% dengan perhitungan r dan adjusted r squared. Sebagaimana yang disebut oleh Hilborn dan Walters (1992), nilai r maupun adjusted r squared menunjukkan bahwa relasi antara CPUE dengan effort sangat tinggi.   
+Disini dapat dilihat hasil analisis menggunakan model Schaefer dan Fox, berupa angka MSY dan Emsy serta rentang bawah dan atas untuk confident interval pada 95% dengan perhitungan r dan adjusted r squared. Sebagaimana yang disebut oleh Hilborn dan Walters (1992), nilai r menunjukkan bahwa relasi antara CPUE dengan effort sangat tinggi.
 
 
 ### 2. Surplus produksi dengan asumsi non-equilibrium menggunakan multiple regression
 
 Metode multiple regression merupakan metode selanjutnya yang digunakan untuk menghitung jumlah tangkapan ikan lestari (MSY) dan upaya penangkapan ikan lestari (Emsy) dengan model Schaefer. Metode ini menggunakan asumsi non-equilibrium dengan pendekatan least square (Walters and Hilborn, 1976) dan disebutkan dapat menghasilkan bias dalam estimasi parameter surplus production, termasuk juga menghasilkan bias lanjutan ketika parameter yang diestimasi digunakan untuk menghitung MSY dan Emsy (Uhler, 1979). Berdasar masukan ini, Hilborn dan Walters (1992) kemudian merevisi input yang digunakan dalam penghitungan multiple regression.
 
-Penggunaan metode multiple regression ini sangat mudah dan metode multiple regression cenderung akan mencari hubungan antar parameter yang diestimasi serta menghasilkan nilai adjusted r squared yang tinggi. Contoh penggunaan package montiR dapat dilihat pada box berikut
+Penggunaan metode multiple regression ini sangat mudah dan cenderung akan mencari hubungan antar parameter yang diestimasi serta menghasilkan nilai adjusted r squared yang tinggi. Contoh penggunaan package montiR dapat dilihat pada box berikut
 
 ```markdown
 library("montiR")
@@ -72,19 +72,25 @@ Smreg(df.eastpacCatch)
 8   adj.r2 2.010338e-01  2.831959e-01
 ```
 
-Dapat dilihat bahwa metode multiple regression pasti akan menghasilkan analisis, meskipun terkadang hasilnya terlihat kurang dapat dipercaya. Misalnya angka r yang minus seperti diatas. Hal ini terjadi karena metode surplus produksi disebut memiliki kelemahan jika menggunakan data yang memiliki tipe one way trip (Hilborn dan Walters, 1992).
+Dapat dilihat bahwa metode multiple regression pasti akan menghasilkan estimasi, meskipun terkadang hasilnya terlihat kurang dapat dipercaya. Misalnya angka r yang minus seperti diatas. Hal ini terjadi karena metode surplus produksi disebut memiliki kelemahan jika menggunakan data yang memiliki tipe one way trip (Hilborn dan Walters, 1992).
 
 ### 3. Surplus produksi dengan asumsi non-equilibrium menggunakan data fitting
 
-Metode time series fitting disebut sebagai metode yang lebih baik dibandingkan dengan dua metode lain (metode equilibrium dan multiple regression) yang digunakan untuk melakukan estimasi parameter dalam model surplus produksi. Sebagian kecil dari kita sudah menggunakan metode ini, tetapi pelaksanaan analisisnya masih perlu disempurnakan agar tidak berakibat pada kurang tepatnya perhitungan MSY, Bmsy dan Emsy
+Metode time series fitting disebut sebagai metode yang lebih baik dibandingkan dengan dua metode lain (metode equilibrium dan multiple regression) yang digunakan untuk melakukan estimasi parameter dalam model surplus produksi (Hilborn and Walter, 1992; Polacheck, et al. 1993). Disini akan dibahas langkah yang disarankan untuk melakukan analisis dengan data fitting untuk meningkatkan akurasi perhitungan MSY, Bmsy dan Emsy.
 
 ### 3.a. Data plotting
 
-Langkah paling penting sebelum melakukan analisis data adalah memeriksa apakah data yang akan digunakan memenuhi persyaratan dan asumsi yang dibutuhkan untuk analisis biomass dynamic model, termasuk memilih jenis langkah apa yang harus dilakukan ketika data yang dibutuhkan tidak memenuhi asumsi
+Langkah paling penting sebelum melakukan analisis data adalah memeriksa apakah data yang akan digunakan memenuhi persyaratan dan asumsi yang dibutuhkan untuk analisis biomass dynamic model, termasuk memilih jenis langkah apa yang harus dilakukan ketika data yang dibutuhkan tidak memenuhi asumsi. Para ahli statistik selalu memulai analisisnya dengan, "Plot your data!". 
+
+Langkah untuk melihat grafik dari data yang dimiliki dapat dilakukan dengan mudah menggunakan kode dan contoh data yang tersedia sebagaimana berikut:
 
 ```markdown
-plotInit(df=df)
+plotInit(df=df.goodcontrast)
+plotInit(df=df.onewaytrip)
+
 ```
+
+Disini kita akan melihat dua jenis data yang biasanya terdapat pada perikanan, goodcontrast dan onewaytrip. Biomass dynamic model dengan menggunakan metode data fitting mensyaratkan data yang memiliki kontras yang cukup pada Catch per Unit Effort (CPUE) dengan pola menurun dan naik dan paling tidak memiliki 20 tahun entry untuk tangkapan dan upaya, dimana hal ini bisa dilihat pada contoh data `df.goodcontrast`. Data yang tidak memiliki kontras yang baik dapat dilihat pada `df.onewaytrip`. Jenis data yang berbeda harus dianalisis menggunakan cara yang berbeda pula.
 
 ### 3.b. Estimasi parameter surplus production dengan data fitting
 
