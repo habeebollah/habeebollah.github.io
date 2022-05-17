@@ -16,11 +16,12 @@ df <- data.frame(tahun=c(...),
 
 
 ### 1. Surplus Production dengan asumsi equilibrium
-Pendekatan yang ditampilkan disini hanya untuk tujuan edukasi sebagai contoh model yang akan memberikan estimasi MSY dan Emsy yang lebih tinggi (Hilborn and Walter, 1992; Polacheck, et al. 1993), sehingga sangat tidak disarankan untuk dijadikan sebagai panduan dalam pengambilan kebijakan perikanan. Overestimasi reference point pada kondisi ketika status perikanan sedang dalam kondisi overexploited akan memberikan ilusi bahwa stok ikan masih banyak, sehingga dapat merugikan pelaku perikanan karena jumlah tangkapan yang rendah dan merugikan stok ikan karena semakin tingginya pemanfaatan. 
+Pendekatan yang ditampilkan disini hanya untuk tujuan pembelajaran sebagai contoh model yang akan memberikan estimasi MSY dan Emsy yang tinggi (Hilborn and Walter, 1992; Polacheck, et al. 1993), sehingga sangat tidak disarankan untuk dijadikan sebagai panduan dalam pengambilan kebijakan perikanan. Overestimasi reference point pada kondisi ketika status perikanan sedang dalam kondisi overexploited akan memberikan ilusi bahwa stok ikan masih banyak, sehingga dapat merugikan pelaku perikanan karena jumlah tangkapan yang rendah dan merugikan stok ikan karena semakin tingginya pemanfaatan. 
 
 Tool ini menggunakan asumsi equilibrium dengan analisa linear regression sederhana untuk menghitung MSY and Emsy termasuk confident interval dan r squared dengan adj R squared menggunakan model yang disusun oleh Schaefer dan Fox. Cara penghitungan menggunakan metode yang tersedia pada Sparre and Venema (1998) dengan contoh penggunaan dengan langsung memasukkan dataframe yang sudah disusun sesuai langkah diatas.
 
 ```markdown
+library("montiR")
 SF_Eq(df.javaTrawl)
 
 $data
@@ -47,14 +48,35 @@ $result
 8     adj.r2    0.9175103    0.9613537
 ```
 
-Disini dapat dilihat hasil analisis menggunakan model Schaefer dan Fox, berupa angka MSY dan Emsy serta rentang bawah dan atas untuk confident interval pada 95% dengan perhitungan r dan adjusted r squared.
+Disini dapat dilihat hasil analisis menggunakan model Schaefer dan Fox, berupa angka MSY dan Emsy serta rentang bawah dan atas untuk confident interval pada 95% dengan perhitungan r dan adjusted r squared. Sebagaimana yang disebut oleh Hilborn dan Walters (1992), nilai r maupun adjusted r squared menunjukkan bahwa relasi antara CPUE dengan effort sangat tinggi.   
 
 
 ### 2. Surplus produksi dengan asumsi non-equilibrium menggunakan multiple regression
 
-Metode multiple regression masih banyak digunakan untuk menghitung jumlah tangkapan ikan lestari (MSY) dan upaya penangkapan ikan lestari (Emsy) dengan asumsi non-equilibrium untuk model Schaefer. Metode yang paling banyak digunakan disebut menghasilkan bias terhadap parameter yang diestimasi, sehingga menghasilkan perhitungan MSY dan Emsy yang juga bias. Revisi dari metode ini kurang banyak digunakan, selain itu semua metode yang menggunakan multiple regression disebut memiliki kelemahan jika menggunakan data yang memiliki tipe one way trip.
+Metode multiple regression merupakan metode selanjutnya yang digunakan untuk menghitung jumlah tangkapan ikan lestari (MSY) dan upaya penangkapan ikan lestari (Emsy) dengan model Schaefer. Metode ini menggunakan asumsi non-equilibrium dengan pendekatan least square (Walters and Hilborn, 1976) dan disebutkan dapat menghasilkan bias dalam estimasi parameter surplus production, termasuk juga menghasilkan bias lanjutan ketika parameter yang diestimasi digunakan untuk menghitung MSY dan Emsy (Uhler, 1979). Berdasar masukan ini, Hilborn dan Walters (1992) kemudian merevisi input yang digunakan dalam penghitungan multiple regression.
+
+Penggunaan metode multiple regression ini sangat mudah dan metode multiple regression cenderung akan mencari hubungan antar parameter yang diestimasi serta menghasilkan nilai adjusted r squared yang tinggi. Contoh penggunaan package montiR dapat dilihat pada box berikut
+
+```markdown
+library("montiR")
+Smreg(df.eastpacCatch)
+
+  analysis      WH.1976       HW.1992
+1        K 1.311046e+06  1.762816e+07
+2        r 8.517976e-01 -2.310706e-01
+3        q 8.021921e-06  1.306083e-06
+4     Bmsy 6.555229e+05  8.814079e+06
+5      MSY 2.791864e+05 -1.018337e+06
+6     Emsy 5.309188e+04 -8.845938e+04
+7       r2 2.809304e-01  3.907165e-01
+8   adj.r2 2.010338e-01  2.831959e-01
+```
+
+Dapat dilihat bahwa metode multiple regression pasti akan menghasilkan analisis, meskipun terkadang hasilnya terlihat kurang dapat dipercaya. Misalnya angka r yang minus seperti diatas. Hal ini terjadi karena metode surplus produksi disebut memiliki kelemahan jika menggunakan data yang memiliki tipe one way trip (Hilborn dan Walters, 1992).
 
 ### 3. Surplus produksi dengan asumsi non-equilibrium menggunakan data fitting
+
+Metode time series fitting disebut sebagai metode yang lebih baik dibandingkan dengan dua metode lain (metode equilibrium dan multiple regression) yang digunakan untuk melakukan estimasi parameter dalam model surplus produksi. Sebagian kecil dari kita sudah menggunakan metode ini, tetapi pelaksanaan analisisnya masih perlu disempurnakan agar tidak berakibat pada kurang tepatnya perhitungan MSY, Bmsy dan Emsy
 
 ### 3.a. Data plotting
 
@@ -66,7 +88,7 @@ plotInit(df=df)
 
 ### 3.b. Estimasi parameter surplus production dengan data fitting
 
-Tool ini melakukan estimasi parameter K, B0, r, q dan menentukan jumlah tangkapan ikan lestari (MSY), biomassa ikan lestari (Bmsy), serta upaya penangkapan ikan lestari (Emsy) menggunakan data runut waktu dengan asumsi non-equilibrium untuk model Schaefer dan Fox. Tool ini sudah disesuaikan untuk kebutuhan data yang terbatas (dapat mengakomodasi hilangnya input data upaya penangkapan) serta sudah memperhitungkan kesalahan dalam pengambilan data (observation error). Metode time series fitting disebut sebagai metode yang lebih baik dibandingkan dengan dua metode lain (metode equilibrium dan multiple regression) yang digunakan untuk melakukan estimasi parameter dalam model surplus produksi. Sebagian kecil dari kita sudah menggunakan metode ini, tetapi pelaksanaan analisisnya masih perlu disempurnakan agar tidak berakibat pada kurang tepatnya perhitungan MSY, Bmsy dan Emsy
+Tool ini melakukan estimasi parameter K, B0, r, q dan menentukan jumlah tangkapan ikan lestari (MSY), biomassa ikan lestari (Bmsy), serta upaya penangkapan ikan lestari (Emsy) menggunakan data runut waktu dengan asumsi non-equilibrium untuk model Schaefer dan Fox. Tool ini sudah disesuaikan untuk kebutuhan data yang terbatas (dapat mengakomodasi hilangnya input data upaya penangkapan) serta sudah memperhitungkan kesalahan dalam pengambilan data (observation error). 
 
 ### 3.c. Menghitung reference point untuk pengelolaan
 
