@@ -108,6 +108,8 @@ Tool ini mengestimasi jumlah stok ikan yang lestari (Bmsy), jumlah tangkapan ika
 
 Data prior setiap spesies untuk parameter pertumbuhan r diambil dari database fishbase dan sealifebase untuk mendukung pendugaan stok di tingkat spesies. Langkah lanjutan untuk melakukan estimasi parameter surplus production menggunakan pendekatan bayesian dan data runut waktu dengan asumsi non-equilibrium untuk model Schaefer dan Fox sehingga menghasilkan pendugaan stok yang lebih akurat di tingkat spesies juga diberikan.
 
+Kajian lebih lanjut menyebutkan bahwa package JABBA yang digunakan untuk melakukan analisis bayesian menghasilkan bias ketika menggunakan data yang memiliki kontras minimal semisal tipe one-way-trip (Sant’Ana, et. al., 2020).
+
 ### 5. Membuat proyeksi atas kebijakan reference point berdasar tingkat pemanfaatan perikanan
 
 Tool ini akan membuat grafik proyeksi biomass per biomass at msy (B/Bmsy) dan fishing per fishing at msy (F/Fmsy) sebagai panduan untuk melihat kebijakan yang akan dibuat berdasarkan Bmsy, MSY dan Emsy sebagai reference point. Proyeksi dibuat dengan pendekatan deterministic secara default, dan terdapat opsi untuk tujuan stochastic.
