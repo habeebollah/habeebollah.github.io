@@ -6,12 +6,31 @@ Struktur serta fungsi yang terdapat pada package montiR dapat dilihat pada gamba
 
 ![Struktur](/img/montiR_fx.png)
 
+[Linear Regression dengan asumsi equilibrium](https://habeebollah.github.io/man_montiR.html#1-surplus-production-dengan-asumsi-equilibrium)
+
+[Multiple regression dengan asumsi non-equilibrium](https://habeebollah.github.io/man_montiR.html#2-surplus-produksi-dengan-asumsi-non-equilibrium-menggunakan-multiple-regression)
+
+[Data fitting dengan asumsi non-equilibrium](https://habeebollah.github.io/man_montiR.html#3-surplus-produksi-dengan-asumsi-non-equilibrium-menggunakan-data-fitting)
+
+[> Data plotting](https://habeebollah.github.io/man_montiR.html#3a-data-plotting)
+
+[> Estimasi parameter surplus production](https://habeebollah.github.io/man_montiR.html#3b-estimasi-parameter-surplus-production-dengan-data-fitting)
+
+[> Menghitung reference point](https://habeebollah.github.io/man_montiR.html#3c-menghitung-reference-point-untuk-pengelolaan)
+
+[> Menghitung standard error dari reference point](https://habeebollah.github.io/man_montiR.html#3d-menghitung-standard-error-dari-reference-point)
+
+[Analisis bayesian dengan asumsi non-equilibrium](https://habeebollah.github.io/man_montiR.html#4-meningkatkan-akurasi-pendugaan-stok-dengan-surplus-production-di-tingkat-spesies-menggunakan-bayesian)
+
+[Membuat proyeksi pengelolaan](https://habeebollah.github.io/man_montiR.html#5-membuat-proyeksi-atas-kebijakan-reference-point-berdasar-tingkat-pemanfaatan-perikanan)
+
+
 Penggunaan montiR diawali dengan penyediaan data yang meliputi data tahun, data tangkapan serta data upaya yang dibuat dalam dataframe seperti berikut:
 
 ```markdown
-df <- data.frame(tahun=c(...),
-                 tangkapan=c(...),
-                 upaya=c(...))
+df <- data.frame(tahun=c(..., ..., ....),
+                 tangkapan=c(..., ..., ....),
+                 upaya=c(..., ..., ....))
 ```
 
 
