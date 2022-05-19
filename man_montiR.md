@@ -25,12 +25,14 @@ Struktur serta fungsi yang terdapat pada package montiR dapat dilihat pada gamba
 [Membuat proyeksi pengelolaan](https://habeebollah.github.io/man_montiR.html#5-membuat-proyeksi-atas-kebijakan-reference-point-berdasar-tingkat-pemanfaatan-perikanan)
 
 
-Penggunaan montiR diawali dengan penyediaan data yang meliputi data tahun, data tangkapan serta data upaya yang dibuat dalam dataframe seperti berikut:
+Penggunaan montiR diawali dengan penyediaan data yang meliputi data tahun, data tangkapan serta data upaya yang dibuat dalam dataframe. Berikut adalah contoh untuk membuat dataframe sebagai input untuk analisis `montiR` menggunakan data tangkapan Yellowfin Tuna di East Pacific (Schaefer, 1957).
 
 ```markdown
-df <- data.frame(tahun=c(..., ..., ....),
-                 tangkapan=c(..., ..., ....),
-                 upaya=c(..., ..., ....))
+df <- data.frame(year=c(1934:1955),
+                 catch=c(60913,72294,78353,91522,78288,110417,114590,76841,41965,50058,64094,
+                        89194,129701,160134,200340,192458,224810,183685,192234,138918,138623,140581),
+                 effort=c(5879,6295,6771,8233,6830,10488,10801,9584,5961,5930,6397,9377,13958,
+                        20381,23984,23013,31856,18726,31529,36423,24995,17806))
 ```
 
 
@@ -43,19 +45,6 @@ Tool ini menggunakan asumsi equilibrium dengan analisa linear regression sederha
 library("montiR")
 SF_Eq(df.javaTrawl)
 
-$data
-  year catch effort     CPUE.s    CPUE.f
-1 1969  50.0    623 0.08025682 -2.522524
-2 1970  49.0    628 0.07802548 -2.550720
-3 1971  47.5    520 0.09134615 -2.393099
-4 1972  45.0    513 0.08771930 -2.433613
-5 1973  51.0    661 0.07715582 -2.561928
-6 1974  56.0    919 0.06093580 -2.797934
-7 1975  66.0   1158 0.05699482 -2.864795
-8 1976  58.0   1970 0.02944162 -3.525346
-9 1977  52.0   1317 0.03948368 -3.231868
-
-$result
     analysis     Schaefer          Fox
 1        MSY   66.0207509   60.9388243
 2  MSY.CIlow   52.8471074   52.2093313
@@ -109,7 +98,7 @@ plotInit(df=df.onewaytrip)
 
 ```
 
-Disini kita akan melihat dua jenis data yang biasanya terdapat pada perikanan, goodcontrast dan onewaytrip. Biomass dynamic model dengan menggunakan metode data fitting mensyaratkan data yang memiliki kontras yang cukup pada Catch per Unit Effort (CPUE) dengan pola menurun dan naik dan paling tidak memiliki 20 tahun entry untuk tangkapan dan upaya, dimana hal ini bisa dilihat pada contoh data `df.goodcontrast`. Data yang tidak memiliki kontras yang baik dapat dilihat pada `df.onewaytrip`. Jenis data yang berbeda harus dianalisis menggunakan cara yang berbeda pula.
+Disini kita akan melihat dua jenis data yang biasanya terdapat pada perikanan, goodcontrast dan onewaytrip. Biomass dynamic model dengan menggunakan metode data fitting mensyaratkan data yang memiliki kontras yang cukup pada Catch per Unit Effort (CPUE) dengan pola menurun dan naik dan paling tidak memiliki 20 tahun entry untuk tangkapan dan upaya, dimana hal ini bisa dilihat pada contoh data `df.goodcontrast`. Contoh data yang tidak memiliki kontras yang baik dapat dilihat pada `df.onewaytrip`. Jenis data yang berbeda harus dianalisis menggunakan cara yang berbeda pula. Pada tahap ini diharapkan data sudah melalui langkah data standardization jika menggunakan alat tangkap yang berbeda.
 
 ### 3.b. Estimasi parameter surplus production dengan data fitting
 
@@ -125,7 +114,7 @@ Tool ini mengestimasi jumlah stok ikan yang lestari (Bmsy), jumlah tangkapan ika
 
 ### 4. Meningkatkan akurasi pendugaan stok dengan surplus production di tingkat spesies menggunakan bayesian
 
-Data prior setiap spesies untuk parameter pertumbuhan r diambil dari database fishbase dan sealifebase untuk mendukung pendugaan stok di tingkat spesies. Langkah lanjutan untuk melakukan estimasi parameter surplus production menggunakan pendekatan bayesian dan data runut waktu dengan asumsi non-equilibrium untuk model Schaefer dan Fox sehingga menghasilkan pendugaan stok yang lebih akurat di tingkat spesies juga diberikan.
+Data prior setiap spesies untuk parameter pertumbuhan r diambil dari database fishbase dan sealifebase untuk mendukung pendugaan stok di tingkat spesies. Langkah lanjutan untuk melakukan estimasi parameter surplus production menggunakan pendekatan bayesian dan data runut waktu dengan asumsi non-equilibrium untuk model Schaefer dan Fox juga diberikan. Secara teori langkah ini akan menghasilkan pendugaan stok yang lebih akurat di tingkat spesies.
 
 Kajian lebih lanjut menyebutkan bahwa package JABBA yang digunakan untuk melakukan analisis bayesian menghasilkan bias ketika menggunakan data yang memiliki kontras minimal semisal tipe one-way-trip (Sant’Ana, et. al., 2020).
 
