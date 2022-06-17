@@ -26,7 +26,7 @@ Struktur serta fungsi yang terdapat pada package montiR dapat dilihat pada struk
 
 
 
-### 1. Metode sebelumnya
+### 1. Metode Surplus Production yang tidak direkomendasikan 
 ### 1.a. Surplus Production dengan asumsi equilibrium
 Pendekatan ini akan memberikan estimasi MSY dan Emsy yang tinggi (Hilborn and Walter, 1992; Polacheck, et al. 1993), sehingga sangat tidak disarankan untuk dijadikan sebagai panduan dalam pengambilan kebijakan perikanan. Overestimasi reference point pada kondisi ketika status perikanan sedang dalam kondisi overexploited akan memberikan ilusi bahwa stok ikan masih banyak, sehingga dapat merugikan pelaku perikanan karena jumlah tangkapan yang rendah dan merugikan stok ikan karena semakin tingginya pemanfaatan. 
 
@@ -35,7 +35,7 @@ Tool ini menggunakan asumsi equilibrium yang menghitung MSY dan Emsy dengan line
 Metode ini akan selalu menghasilkan perhitungan MSY dan Emsy meskipun data yang digunakan berkualitas rendah dengan sedikit kontras (Hilborn dan Walters, 1992) ataupun memiliki data time series terbatas (Sparre dan Venema, 1998). menghasilkan Sebagaimana yang disebut oleh Hilborn dan Walters (1992), biasanya nilai r squared dari linear regression menunjukkan bahwa relasi antara CPUE dengan effort sangat tinggi sehingga memberikan kesan bahwa analisa yang dihasilkan dari metode ini benar.
 
 
-### 1.b. Surplus produksi dengan asumsi non-equilibrium menggunakan multiple regression
+### 1.b. Surplus produkction dengan asumsi non-equilibrium menggunakan multiple regression
 
 Metode multiple regression merupakan metode selanjutnya yang digunakan untuk menghitung jumlah tangkapan ikan lestari (MSY) dan upaya penangkapan ikan lestari (Emsy) dengan model Schaefer. Metode ini menggunakan asumsi non-equilibrium dengan pendekatan least square (Walters and Hilborn, 1976) dan disebut menghasilkan bias dalam estimasi parameter surplus production, termasuk juga menghasilkan bias dalam proses lanjutan ketika parameter yang diestimasi digunakan untuk menghitung MSY dan Emsy (Uhler, 1979). Berdasar masukan ini, Hilborn dan Walters (1992) kemudian merevisi input yang digunakan dalam penghitungan multiple regression.
 
@@ -43,7 +43,36 @@ Penggunaan metode multiple regression ini sangat mudah dan cenderung akan mencar
 
 ### 2. Surplus produksi dengan asumsi non-equilibrium menggunakan data fitting
 
-Metode time series fitting disebut sebagai metode yang lebih baik dibandingkan dengan dua metode lain (metode equilibrium dan multiple regression) yang digunakan untuk melakukan estimasi parameter dalam model surplus produksi (Hilborn and Walter, 1992; Polacheck, et al. 1993). Disini akan dibahas langkah yang disarankan untuk melakukan analisis dengan data fitting untuk meningkatkan akurasi perhitungan MSY, Bmsy dan Emsy.
+Metode time series fitting disebut sebagai metode yang lebih baik dibandingkan dengan dua metode lain (metode equilibrium dan multiple regression) yang digunakan untuk melakukan estimasi parameter dalam model surplus produksi (Hilborn dan Walter, 1992; Polacheck, et al. 1993; Punt dan Hilborn, 1996). Disini akan dibahas langkah yang disarankan untuk melakukan analisis dengan data fitting untuk meningkatkan akurasi perhitungan MSY, Bmsy dan Emsy.
+
+Selanjutnya, metode ini lebih dikenal dengan sebutan Biomass Dynamic Model yang paling umum dibangun dari Schaefer (1954), Fox (1970) dan Pella-Tomlinson (1969). Saat ini `montiR` dibangun dengan model Schaefer yang dituliskan dengan
+
+$ B_{t+1} = {B_{t} + rB_{t} (1- {B_{t} \over K}) - C_{t}} $
+
+dimana:
+
+$B_{t}$ = biomass yang dimanfaatkan pada awal tahun $t$
+
+$r$ = laju pertumbuhan intrinsic
+
+$K$ = carrying capacity
+
+$C_{t}$ = jumlah tangkapan (volume) pada tahun $t$
+
+dengan
+
+$ I_{t+1} = {C_{t} \over E_{t}} = q B_{t} e^\epsilon $
+
+dimana: 
+
+$I_{t+1} $ = catch per unit of effort (CPUE)/indeks kelimpahan
+
+$ E_{t} $ = upaya penangkapan
+
+$ q $ = catchability
+
+$ \epsilon $ = observation error
+
 
 Penggunaan montiR diawali dengan penyediaan data yang meliputi data tahun, data tangkapan serta data upaya yang dibuat dalam dataframe. Berikut adalah contoh untuk membuat dataframe sebagai input untuk analisis `montiR` menggunakan data tangkapan Yellowfin Tuna di East Pacific (Schaefer, 1957).
 
@@ -77,29 +106,11 @@ Pada tahap ini diharapkan data sudah melalui langkah data standardization yang b
 
 Tool ini melakukan estimasi parameter K, B0, r, q dan menentukan jumlah tangkapan ikan lestari (MSY), biomassa ikan lestari (Bmsy), serta upaya penangkapan ikan lestari (Emsy) menggunakan data runut waktu dengan asumsi non-equilibrium untuk model Schaefer.
 
-Surplus production dengan model Schaefer dituliskan dengan
-
-$ B_{t+1} = {B_{t} + rB_{t} (1- {B_{t} \over K}) - C_{t}} $
-
-dimana:
-
-$B_{t}$ = biomass yang dimanfaatkan pada awal tahun $t$
-
-$r$ = laju pertumbuhan intrinsic
-
-$K$ = carrying capacity
-
-$C_{t}$ = jumlah tangkapan (volume) pada tahun $t$
-
-dengan
-
-$ I_{t+1} =qB_{t}\epsilon $
-
-
-
 Proses estimasi diawali dengan mencari angka awal yang diperkirakan sesuai dengan parameter K, B0, r, q. Hal ini dilakukan dengan menduga angka parameter, kemudian dilihat apakah grafik yang dihasilkan dari parameter yang kita duga memberikan grafik yang sesuai dengan data yang akan kita lakukan pendugaannya. Misalnya kita akan menduga parameter surplus production dari data `df.goodcontrast`, maka cara estimasinya dilakukan dengan:
 
 ```markdown
+library('montiR')
+
 K <- 1000
 B0 <- K
 r <- 0.2
@@ -112,7 +123,33 @@ Par_init(inpars=inpars, df=df.goodcontrast)
 
 Mencari angka awal ini dapat dilakukan terus menerus dengan merubah angka K, r dan q sehingga dirasa grafik hasil dari angka awal dirasa sudah sesuai (fit) dengan data yang akan kita analisis.
 
-Setelah angka awal didapat, maka langkah selanjutnya adalah melakukan optimasi parameter melalui Maximum Likelihood Estimation dengan observation error. Observation error menggunakan asumsi bahwa terdapat kesalahan pada hubungan antara biomass dan indeks kelimpahan, sehingga parameter ini perlu untuk diestimasi.
+Setelah angka awal didapat, maka langkah selanjutnya adalah melakukan optimasi parameter melalui Maximum Likelihood Estimation dengan observation error. Observation error menggunakan asumsi bahwa terdapat kesalahan pada hubungan antara biomass dan indeks kelimpahan, sehingga parameter ini perlu untuk diestimasi. Indeks kelimpahan diasumsikan mengikuti distribusi log-normal untuk melakukan estimasi parameter K, B0, r, q dan sigma (observation error).
+
+Proses estimasi parameter ini dilakukan dengan langkah sebagai berikut:
+
+```markdown
+library('montiR')
+
+K <- 1000
+B0 <- K
+r <- 0.2
+q <- 0.00025
+sigma <- 0.1
+
+inpars <- c(log(K), log(B0), log(r), log(q), log(sigma))
+fit <- optim(par=inpars,
+             fn=Par.min,
+             df=df.goodcontrast,
+             method="Nelder-Mead",
+             OWT=FALSE, currentF = 0.7, weight = 0.5)
+
+Par.vals <- data.frame(SPpar = c("K", "B0", "r", "q", "sigma"),
+                       init_pars = c(K, B0, r, q, sigma),
+                       fitted_pars = exp(fit$par))
+Par.vals
+```
+
+Disini angka awal yang didapatkan dari proses sebelumnya kemudian disimpan sebagai inpars. Karena kita tahu bahwa parameter ini pasti bernilai positif, maka angka yang masuk disimpan dalam bentuk log. Setelah proses optimasi dengan perhitungan Maximum Likelihood Estimation selesai dilakukan, angka yang didapat masih dalam bentuk logarithmic sehingga perlu dilakukan backtransform. Angka awal dan angka akhir estimasi parameter K, B0, r, q dan sigma (observation error) hasil perhitungan maximum likelihood estimation dapat dilihat dengan meng-klik  `Par.vals`.
 
 Tool ini sudah disesuaikan untuk kebutuhan data yang terbatas (dapat mengakomodasi hilangnya input data upaya penangkapan) serta sudah memperhitungkan kesalahan dalam pengambilan data (observation error). 
 
