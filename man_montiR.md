@@ -65,13 +65,13 @@ $ I_{t+1} = {C_{t} \over E_{t}} = q B_{t} e^\epsilon $
 
 dimana: 
 
-$I_{t+1} $ = catch per unit of effort (CPUE)/indeks kelimpahan
+$I_{t+1}$ = catch per unit of effort (CPUE)/indeks kelimpahan
 
-$ E_{t} $ = upaya penangkapan
+$E_{t}$ = upaya penangkapan
 
-$ q $ = catchability
+$q$ = catchability
 
-$ \epsilon $ = observation error
+$\epsilon$ = observation error
 
 
 Penggunaan montiR diawali dengan penyediaan data yang meliputi data tahun, data tangkapan serta data upaya yang dibuat dalam dataframe. Berikut adalah contoh untuk membuat dataframe sebagai input untuk analisis `montiR` menggunakan data tangkapan Yellowfin Tuna di East Pacific (Schaefer, 1957).
