@@ -2,30 +2,6 @@
 
 'montiR' (Model biOmass diNamik singkaT dI R) merupakan kumpulan model biomas dinamik untuk pengelolaan perikanan yang ditulis menggunakan R. Model surplus produksi dibangun atas asumsi equilibrium dan non-equilibrium yang dipopulerkan penggunaannya oleh Hilborn dan Walters (1992). Penjelasan mengenai latar belakang, kelebihan dan kekurangan dari tiap metode akan dijelaskan di panduan package ini sebagai pendahuluan untuk menjelaskan mengenai evolusi metode surplus produksi hingga didapatkan metode yang menghasilkan estimasi lebih baik dengan asumsi non-equilibrium yang dihitung dengan data fitting menggunakan observation error (Polacheck et al., 1993). 
 
-Struktur serta fungsi yang terdapat pada package montiR dapat dilihat pada struktur berikut
-
-[1. Metode sebelumnya](https://habeebollah.github.io/man_montiR.html#1-Metode-sebelumnya)
-
-[1.a. Surplus production dengan asumsi equilibrium](https://habeebollah.github.io/man_montiR.html#1.a.-surplus-production-dengan-asumsi-equilibrium)
-
-[1.b. Multiple regression dengan asumsi non-equilibrium](https://habeebollah.github.io/man_montiR.html#1.b.-surplus-produksi-dengan-asumsi-non-equilibrium-menggunakan-multiple-regression)
-
-[2. Data fitting dengan asumsi non-equilibrium](https://habeebollah.github.io/man_montiR.html#2-surplus-produksi-dengan-asumsi-non-equilibrium-menggunakan-data-fitting)
-
-[2.a. Data plotting](https://habeebollah.github.io/man_montiR.html#2.a.-data-plotting)
-
-[2.b. Estimasi parameter surplus production](https://habeebollah.github.io/man_montiR.html#2.b.-estimasi-parameter-surplus-production-dengan-data-fitting)
-
-[2.c. Menghitung reference point](https://habeebollah.github.io/man_montiR.html#2.c.-menghitung-reference-point-untuk-pengelolaan)
-
-[2.d. Menghitung standard error dari reference point](https://habeebollah.github.io/man_montiR.html#2.d.-menghitung-standard-error-dari-reference-point)
-
-[3. Analisis bayesian dengan asumsi non-equilibrium](https://habeebollah.github.io/man_montiR.html#3-meningkatkan-akurasi-pendugaan-stok-dengan-surplus-production-di-tingkat-spesies-menggunakan-bayesian)
-
-[4. Membuat proyeksi pengelolaan](https://habeebollah.github.io/man_montiR.html#4-membuat-proyeksi-atas-kebijakan-reference-point-berdasar-tingkat-pemanfaatan-perikanan)
-
-
-
 ### 1. Metode Surplus Production yang tidak direkomendasikan 
 ### 1.a. Surplus Production dengan asumsi equilibrium
 Pendekatan ini akan memberikan estimasi MSY dan Emsy yang tinggi (Hilborn and Walter, 1992; Polacheck, et al. 1993), sehingga sangat tidak disarankan untuk dijadikan sebagai panduan dalam pengambilan kebijakan perikanan. Overestimasi reference point pada kondisi ketika status perikanan sedang dalam kondisi overexploited akan memberikan ilusi bahwa stok ikan masih banyak, sehingga dapat merugikan pelaku perikanan karena jumlah tangkapan yang rendah dan merugikan stok ikan karena semakin tingginya pemanfaatan. 
@@ -35,13 +11,13 @@ Tool ini menggunakan asumsi equilibrium yang menghitung MSY dan Emsy dengan line
 Metode ini akan selalu menghasilkan perhitungan MSY dan Emsy meskipun data yang digunakan berkualitas rendah dengan sedikit kontras (Hilborn dan Walters, 1992) ataupun memiliki data time series terbatas (Sparre dan Venema, 1998). menghasilkan Sebagaimana yang disebut oleh Hilborn dan Walters (1992), biasanya nilai r squared dari linear regression menunjukkan bahwa relasi antara CPUE dengan effort sangat tinggi sehingga memberikan kesan bahwa analisa yang dihasilkan dari metode ini benar.
 
 
-### 1.b. Surplus produkction dengan asumsi non-equilibrium menggunakan multiple regression
+### 1.b. Surplus production dengan asumsi non-equilibrium menggunakan multiple regression
 
 Metode multiple regression merupakan metode selanjutnya yang digunakan untuk menghitung jumlah tangkapan ikan lestari (MSY) dan upaya penangkapan ikan lestari (Emsy) dengan model Schaefer. Metode ini menggunakan asumsi non-equilibrium dengan pendekatan least square (Walters and Hilborn, 1976) dan disebut menghasilkan bias dalam estimasi parameter surplus production, termasuk juga menghasilkan bias dalam proses lanjutan ketika parameter yang diestimasi digunakan untuk menghitung MSY dan Emsy (Uhler, 1979). Berdasar masukan ini, Hilborn dan Walters (1992) kemudian merevisi input yang digunakan dalam penghitungan multiple regression.
 
 Penggunaan metode multiple regression ini sangat mudah dan cenderung akan mencari hubungan antar parameter yang diestimasi serta menghasilkan nilai r squared yang tinggi. Dapat dilihat bahwa metode multiple regression pasti akan menghasilkan estimasi, meskipun terkadang hasilnya terlihat kurang dapat dipercaya. Misalnya angka r (intrinsic growth parameter) yang minus seperti diatas. Hal ini terjadi karena metode surplus produksi disebut memiliki kelemahan jika menggunakan data yang memiliki tipe one way trip (Hilborn dan Walters, 1992).
 
-### 2. Surplus produksi dengan asumsi non-equilibrium menggunakan data fitting
+### 2. Surplus production dengan asumsi non-equilibrium menggunakan data fitting
 
 Metode time series fitting disebut sebagai metode yang lebih baik dibandingkan dengan dua metode lain (metode equilibrium dan multiple regression) yang digunakan untuk melakukan estimasi parameter dalam model surplus produksi (Hilborn dan Walter, 1992; Polacheck, et al. 1993; Punt dan Hilborn, 1996). Disini akan dibahas langkah yang disarankan untuk melakukan analisis dengan data fitting untuk meningkatkan akurasi perhitungan MSY, Bmsy dan Emsy.
 
