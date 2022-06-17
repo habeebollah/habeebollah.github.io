@@ -5,6 +5,7 @@
 Struktur serta fungsi yang terdapat pada package montiR dapat dilihat pada struktur berikut
 
 [1. Metode sebelumnya](https://habeebollah.github.io/man_montiR.html#1-Metode-sebelumnya)
+
 [1.a. Surplus production dengan asumsi equilibrium](https://habeebollah.github.io/man_montiR.html#1.a.-surplus-production-dengan-asumsi-equilibrium)
 
 [1.b. Multiple regression dengan asumsi non-equilibrium](https://habeebollah.github.io/man_montiR.html#1.b.-surplus-produksi-dengan-asumsi-non-equilibrium-menggunakan-multiple-regression)
@@ -67,7 +68,7 @@ plotInit(df=df.onewaytrip)
 
 ```
 
-Disini kita akan melihat dua jenis data yang biasanya terdapat pada perikanan, goodcontrast dan onewaytrip. Biomass dynamic model dengan menggunakan metode data fitting mensyaratkan data yang memiliki kontras yang cukup pada Catch per Unit Effort (CPUE) dengan pola menurun dan naik dan paling tidak memiliki 20 tahun entry untuk tangkapan dan upaya (pers comm, Ray Hilborn), dimana hal ini bisa dilihat pada contoh data `df.goodcontrast`. Contoh data yang tidak memiliki kontras yang baik dapat dilihat pada `df.onewaytrip`. Jenis data yang berbeda harus dianalisis menggunakan cara yang berbeda pula. Pada tahap ini diharapkan data sudah melalui langkah data standardization yang biasanya diolah dengan metode Generalized Linear Model.
+Disini kita akan melihat dua jenis data yang biasanya terdapat pada perikanan, goodcontrast dan onewaytrip. Biomass dynamic model dengan menggunakan metode data fitting mensyaratkan data yang memiliki kontras yang cukup pada Catch per Unit Effort (CPUE) dengan pola menurun dan naik dan paling tidak memiliki 20 tahun entry untuk tangkapan dan upaya (pers comm, Ray Hilborn), dimana hal ini bisa dilihat pada contoh data `df.goodcontrast`. Contoh data yang tidak memiliki kontras yang baik dapat dilihat pada `df.onewaytrip`. Jenis data yang berbeda harus dianalisis menggunakan cara yang berbeda pula. Pada tahap ini diharapkan data sudah melalui langkah data standardization yang biasanya diolah dengan menggunakan Generalized Linear Model.
 
 
 ### 2.b. Estimasi parameter surplus production dengan data fitting
@@ -84,7 +85,7 @@ r <- 0.2
 q <- 0.00025
 
 inpars <- c(K, B0, r, q)
-Spar(inpars=inpars, df=df.goodcontrast)
+Par_init(inpars=inpars, df=df.goodcontrast)
 
 ```
 
