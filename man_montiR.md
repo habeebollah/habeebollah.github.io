@@ -30,7 +30,7 @@ Struktur serta fungsi yang terdapat pada package montiR dapat dilihat pada struk
 ### 1.a. Surplus Production dengan asumsi equilibrium
 Pendekatan ini akan memberikan estimasi MSY dan Emsy yang tinggi (Hilborn and Walter, 1992; Polacheck, et al. 1993), sehingga sangat tidak disarankan untuk dijadikan sebagai panduan dalam pengambilan kebijakan perikanan. Overestimasi reference point pada kondisi ketika status perikanan sedang dalam kondisi overexploited akan memberikan ilusi bahwa stok ikan masih banyak, sehingga dapat merugikan pelaku perikanan karena jumlah tangkapan yang rendah dan merugikan stok ikan karena semakin tingginya pemanfaatan. 
 
-Tool ini menggunakan asumsi equilibrium yang menghitung MSY and Emsy menggunakan analisa linear regression sederhana (Sparre dan Venema, 1998) ataupun dengan menggunakan metode non-linear (Punt dan Hilborn, 1996). Selain menghitung MSY dan Emsy, disarankan untuk juga menghitung confident interval dan r squared yang diterapkan pada metode linear regression. 
+Tool ini menggunakan asumsi equilibrium yang menghitung MSY dan Emsy dengan linear regression sederhana (Sparre dan Venema, 1998) ataupun dengan menggunakan metode non-linear (Punt dan Hilborn, 1996). Selain menghitung MSY dan Emsy, disarankan untuk juga menghitung confident interval dan r squared yang diterapkan pada metode linear regression. 
 
 Metode ini akan selalu menghasilkan perhitungan MSY dan Emsy meskipun data yang digunakan berkualitas rendah dengan sedikit kontras (Hilborn dan Walters, 1992) ataupun memiliki data time series terbatas (Sparre dan Venema, 1998). menghasilkan Sebagaimana yang disebut oleh Hilborn dan Walters (1992), biasanya nilai r squared dari linear regression menunjukkan bahwa relasi antara CPUE dengan effort sangat tinggi sehingga memberikan kesan bahwa analisa yang dihasilkan dari metode ini benar.
 
@@ -60,7 +60,7 @@ df <- data.frame(year=c(1934:1955),
 
 Langkah paling penting sebelum melakukan analisis data adalah memeriksa apakah data yang akan digunakan memenuhi persyaratan dan asumsi yang dibutuhkan untuk analisis biomass dynamic model, termasuk memilih jenis langkah apa yang harus dilakukan ketika data yang dibutuhkan tidak memenuhi asumsi. Para ahli statistik selalu memulai analisisnya dengan, "Plot your data!". 
 
-Langkah untuk melihat grafik dari data yang dimiliki dapat dilakukan dengan mudah menggunakan kode dan contoh data yang tersedia sebagaimana berikut:
+Langkah untuk melihat grafik jumlah tangkapan (catch), upaya (effort) serta catch per unit of effort (CPUE)/indeks kelimpahan dari data yang dimiliki dapat dilakukan dengan mudah menggunakan kode dan contoh data yang tersedia sebagaimana berikut:
 
 ```markdown
 plotInit(df=df.goodcontrast)
@@ -68,15 +68,36 @@ plotInit(df=df.onewaytrip)
 
 ```
 
-Disini kita akan melihat dua jenis data yang biasanya terdapat pada perikanan, goodcontrast dan onewaytrip. Biomass dynamic model dengan menggunakan metode data fitting mensyaratkan data yang memiliki kontras yang cukup pada Catch per Unit Effort (CPUE) dengan pola menurun dan naik dan paling tidak memiliki 20 tahun entry untuk tangkapan dan upaya (pers comm, Ray Hilborn), dimana hal ini bisa dilihat pada contoh data `df.goodcontrast`. Contoh data yang tidak memiliki kontras yang baik dapat dilihat pada `df.onewaytrip`. Jenis data yang berbeda harus dianalisis menggunakan cara yang berbeda pula. Pada tahap ini diharapkan data sudah melalui langkah data standardization yang biasanya diolah dengan menggunakan Generalized Linear Model.
+Disini kita akan melihat dua jenis data yang biasanya terdapat pada perikanan, goodcontrast dan onewaytrip. Biomass dynamic model dengan menggunakan metode data fitting mensyaratkan data yang memiliki kontras yang cukup pada Catch per Unit Effort (CPUE) dengan pola menurun dan naik dan paling tidak memiliki 20 tahun entry untuk tangkapan dan upaya (pers comm, Ray Hilborn), dimana hal ini bisa dilihat pada contoh data `df.goodcontrast`. Contoh data yang tidak memiliki kontras yang baik dapat dilihat pada `df.onewaytrip`. Jenis data yang berbeda harus dianalisis menggunakan cara yang berbeda pula.
+
+Pada tahap ini diharapkan data sudah melalui langkah data standardization yang biasanya diolah dengan menggunakan Generalized Linear Model.
 
 
 ### 2.b. Estimasi parameter surplus production dengan data fitting
 
 Tool ini melakukan estimasi parameter K, B0, r, q dan menentukan jumlah tangkapan ikan lestari (MSY), biomassa ikan lestari (Bmsy), serta upaya penangkapan ikan lestari (Emsy) menggunakan data runut waktu dengan asumsi non-equilibrium untuk model Schaefer.
 
+Surplus production dengan model Schaefer dituliskan dengan
 
-Proses estimasi diawali dengan mencari angka awal yang diperkirakan sesuai dengan parameter K, B0, r, q. Hal ini dilakukan dengan menduga angka parameter, kemudian dilihat apakah grafik yang dihasilkan dari parameter yang kita duga memberikan grafik yang sesuai dengan data yang akan kita lakukan pendugaannya. Misalnya kita akan menduga parameter surplus production dari data 'df.goodcontrast', maka cara estimasinya dilakukan dengan:
+$ B_{t+1} = {B_{t} + rB_{t} (1- {B_{t} \over K}) - C_{t}} $
+
+dimana:
+
+$B_{t}$ = biomass yang dimanfaatkan pada awal tahun $t$
+
+$r$ = laju pertumbuhan intrinsic
+
+$K$ = carrying capacity
+
+$C_{t}$ = jumlah tangkapan (volume) pada tahun $t$
+
+dengan
+
+$ I_{t+1} =qB_{t}\epsilon $
+
+
+
+Proses estimasi diawali dengan mencari angka awal yang diperkirakan sesuai dengan parameter K, B0, r, q. Hal ini dilakukan dengan menduga angka parameter, kemudian dilihat apakah grafik yang dihasilkan dari parameter yang kita duga memberikan grafik yang sesuai dengan data yang akan kita lakukan pendugaannya. Misalnya kita akan menduga parameter surplus production dari data `df.goodcontrast`, maka cara estimasinya dilakukan dengan:
 
 ```markdown
 K <- 1000
@@ -89,9 +110,9 @@ Par_init(inpars=inpars, df=df.goodcontrast)
 
 ```
 
-Mencari angka awal ini dapat dilakukan terus menerus hingga dirasa grafik hasil dari angka awal dirasa sudah sesuai (fit) dengan data yang akan kita analisis.
+Mencari angka awal ini dapat dilakukan terus menerus dengan merubah angka K, r dan q sehingga dirasa grafik hasil dari angka awal dirasa sudah sesuai (fit) dengan data yang akan kita analisis.
 
-Setelah angka awal didapat, maka langkah selanjutnya adalah melakukan optimasi parameter melalui Maximum Likelihood Estimation dengan observation error.
+Setelah angka awal didapat, maka langkah selanjutnya adalah melakukan optimasi parameter melalui Maximum Likelihood Estimation dengan observation error. Observation error menggunakan asumsi bahwa terdapat kesalahan pada hubungan antara biomass dan indeks kelimpahan, sehingga parameter ini perlu untuk diestimasi.
 
 Tool ini sudah disesuaikan untuk kebutuhan data yang terbatas (dapat mengakomodasi hilangnya input data upaya penangkapan) serta sudah memperhitungkan kesalahan dalam pengambilan data (observation error). 
 
