@@ -73,11 +73,11 @@ plotInit(df=df.onewaytrip0)
 
 ```
 
-Disini kita akan melihat dua jenis data yang biasanya terdapat pada perikanan, goodcontrast dan onewaytrip. Biomass dynamic model dengan menggunakan metode data fitting mensyaratkan data yang memiliki kontras yang cukup pada Catch per Unit Effort (CPUE), ditunjukkan dengan adanya representasi pola turun dan naik serta paling tidak memiliki 20 tahun entry untuk tangkapan dan upaya (pers comm, Ray Hilborn). Contoh dari data yang memiliki kontras yang cukup dapat dilihat pada `df.goodcontrast0` dan `df.namibianCatch`.
+Disini kita akan melihat dua jenis data yang biasanya terdapat pada perikanan, goodcontrast dan onewaytrip. Biomass dynamic model dengan menggunakan metode data fitting mensyaratkan data yang memiliki kontras yang cukup pada Catch per Unit Effort (CPUE), ditunjukkan dengan adanya representasi pola turun dan naik serta paling tidak memiliki 20 tahun entry untuk tangkapan dan upaya (pers comm, Ray Hilborn). Contoh dari data yang memiliki kontras yang cukup dapat dilihat pada `df.goodcontrast0` dan `df.namibianCatch`, dimana contoh plot dari `df.goodcontrast0` dapat dilihat berikut:
 
 ![Tipe data dengan good contrast](/img/img_goodcontrast0.png)
 
-Contoh data yang tidak memiliki kontras yang baik dapat dilihat pada `df.onewaytrip0`. Dapat dilihat bahwa data tangkapan dan upaya memiliki pola meningkat dengan tidak memiliki pola menurun. Contoh lain dari data dengan pola one way trip dapat dilihat pada `df.eastpacCatch`.
+Contoh data yang tidak memiliki kontras yang baik dapat dilihat pada `df.onewaytrip0` dan `df.eastpacCatch`. Dapat dilihat bahwa data tangkapan dan upaya memiliki pola meningkat dengan tidak memiliki pola menurun sebagaimana yang ditunjukkan dari plot `df.onewaytrip0` berikut:
 ![Tipe data one way trip](/img/img_onewaytrip0.png)
 
 Jenis data yang berbeda harus dianalisis menggunakan cara yang berbeda pula. Hal ini akan dijelaskan lebih lanjut di bagian selanjutnya.
@@ -94,10 +94,10 @@ Proses estimasi diawali dengan mencari angka awal yang diperkirakan sesuai denga
 ```markdown
 library('montiR')
 
-K <- 4200
+K <- 1700
 B0 <- K
 r <- 0.3
-q <- 0.0018
+q <- 0.0003
 
 inpars <- c(K, B0, r, q)
 Par_init(inpars=inpars, df=df.namibianCatch)
@@ -113,10 +113,10 @@ Proses estimasi parameter ini dilakukan dengan langkah sebagai berikut:
 ```markdown
 library('montiR')
 
-K <- 4200
+K <- 1700
 B0 <- K
 r <- 0.3
-q <- 0.0018
+q <- 0.0003
 sigma <- 0.1
 inpars <- c(log(K), log(B0), log(r), log(q), log(sigma))
 
@@ -163,12 +163,6 @@ Emsy <- r/(2*q)
 
 Tool ini mengestimasi jumlah stok ikan yang lestari (Bmsy), jumlah tangkapan ikan lestari (MSY) dan upaya penangkapan ikan lestari (Emsy) serta menghitung standard error menggunakan data runut waktu dengan asumsi non-equilibrium untuk model Schaefer dan Fox.
 
-### 3. Meningkatkan akurasi pendugaan stok dengan surplus production di tingkat spesies menggunakan bayesian
-
-Data prior setiap spesies untuk parameter pertumbuhan r diambil dari database fishbase dan sealifebase untuk mendukung pendugaan stok di tingkat spesies. Langkah lanjutan untuk melakukan estimasi parameter surplus production menggunakan pendekatan bayesian dan data runut waktu dengan asumsi non-equilibrium untuk model Schaefer dan Fox juga diberikan. Secara teori langkah ini akan menghasilkan pendugaan stok yang lebih akurat di tingkat spesies.
-
-Kajian lebih lanjut menyebutkan bahwa package JABBA yang digunakan untuk melakukan analisis bayesian menghasilkan bias ketika menggunakan data yang memiliki kontras minimal semisal tipe one-way-trip (Sant’Ana, et. al., 2020).
-
-### 4. Membuat proyeksi atas kebijakan reference point berdasar tingkat pemanfaatan perikanan
+### 3. Membuat proyeksi atas kebijakan reference point berdasar tingkat pemanfaatan perikanan
 
 Tool ini akan membuat grafik proyeksi biomass per biomass at msy (B/Bmsy) dan fishing per fishing at msy (F/Fmsy) sebagai panduan untuk melihat kebijakan yang akan dibuat berdasarkan Bmsy, MSY dan Emsy sebagai reference point. Proyeksi dibuat dengan pendekatan deterministic secara default, dan terdapat opsi untuk tujuan stochastic.
