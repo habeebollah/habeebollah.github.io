@@ -1,2 +1,2 @@
-remote_theme: just-the-docs/just-the-docs@v0.4.0.rc2
-
+# remote_theme: just-the-docs/just-the-docs@v0.4.0.rc2
+remote_theme: "mmistakes/so-simple-theme@3.2.0"
